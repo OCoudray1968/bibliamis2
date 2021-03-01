@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier livre #' ~ book.id %}
+
+{% block body %}
+
+	<h1>Modification du Livre #{{ book.id }}</h1>
+
+	{{ form_start(formEditBook) }}
+		
+		{{ form_widget(formEditBook) }}
+
+		<input type="submit" value="Modification du livre" formnovalidate>
+
+	{{ form_end(formEditBook) }}
+
+{% endblock %}

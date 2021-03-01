@@ -3,6 +3,7 @@
 {% block title 'Trouvez tout les livres de notre bibliothèque' %}
 
 {% block body %}
+	<h3><a href="{{path('app_books_create')}}">Créer un livre</a></h3>
 
 	<h1> {{ pluralize(books|length, 'Livre')}} dans notre bibliothèque</h1>
 
