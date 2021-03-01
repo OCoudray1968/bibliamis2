@@ -5,6 +5,7 @@ namespace App\Entity;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
+use App\Entity\Traits\Timestampable;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -13,6 +14,8 @@ use App\Repository\BookRepository;
  */
 class Book
 {
+    use Timestampable;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -35,15 +38,7 @@ class Book
      */
     private $comments;
 
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $updatedAt;
+   
 
     public function getId(): ?int
     {
@@ -87,42 +82,5 @@ class Book
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-    * @ORM\PrePersist
-    * @ORM\PreUpdate
-    */
-
-    public function updateTimeStamps()
-    {
-        if ($this->getCreatedAt() === null) {
-
-            $this->setCreatedAt(new \DateTimeImmutable);
-        }
-
-        $this->setUpdatedAt(new \DateTimeImmutable);
-    }
+   
 }
