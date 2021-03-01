@@ -1,19 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title pin.title %}
+{% block title book.title %}
 
 {% block body %}
 
 	
 			<article>
 
-				<h1>{{ pin.title }}</h1>
-				<p>{{ pin.author }} </p>
-				<p>{{ pin.comments }}</p>
+				<h1>{{ book.title }}</h1>
+				<p>{{ book.author }} </p>
+				<p>{{ book.comments }}</p>
 
 			</article>
 			<a href="{{path('app_home')}}">Retour à l'accueil</a>
 
-	{% endfor %}
+	
 
 {% endblock %}

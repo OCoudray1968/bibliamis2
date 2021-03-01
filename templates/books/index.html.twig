@@ -8,9 +8,9 @@
 
 	{%  for book in books %}
 			<article>
-				<h2><a href="{{path('app_pins_show', {id: book.id}) }}"> {{ pin.title }}</a> </h2>
-				<p>{{ pin.author }} </p>
-				<p>{{ pin.comments }}</p>
+				<h2><a href="{{path('app_books_show', {id: book.id}) }}"> {{ book.title }}</a> </h2>
+				<p>{{ book.author }} </p>
+				<p>{{ book.comments }}</p>
 
 			</article>
 

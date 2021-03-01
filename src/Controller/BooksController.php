@@ -15,13 +15,13 @@ class BooksController extends AbstractController
      */
     public function index(BookRepository $bookRepository): Response
     {
-        $books = $bookRepository->findAll();
+        $books = $bookRepository->findBy([],['createdAt' =>'DESC']);
 
         return $this->render('books/index.html.twig', compact('books'));
     }
 
      /**
-     * @Route("/books/{id<[0-9]>+}", name="app_books_show")
+     * @Route("/books/{id<[0-9]+>}", name="app_books_show")
      */
     public function show(Book $book): Response
 
