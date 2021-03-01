@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BooksController extends AbstractController
@@ -31,13 +30,7 @@ class BooksController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em):Response
     {
         $book = new Book;
-        $form = $this->createFormBuilder($book)
-            ->add('title', TextType::class)
-            ->add('author', TextType::class)
-            ->add('comments', TextareaType::class)
-            ->getForm()
-            ;
-
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -64,17 +57,14 @@ class BooksController extends AbstractController
     }
 
      /**
-     * @Route("/books/{id<[0-9]+>}/edit", name="app_books_edit",methods="GET|POST")
+     * @Route("/books/{id<[0-9]+>}/edit", name="app_books_edit",methods="GET|PUT")
      */
     public function edit(Request $request,Book $book, EntityManagerInterface $em): Response
 
     {
-         $form = $this->createFormBuilder($book)
-            ->add('title', TextType::class)
-            ->add('author', TextType::class)
-            ->add('comments', TextareaType::class)
-            ->getForm()
-            ;
+        $form = $this->createForm(BookType::class, $book, [
+            'method' => 'PUT'
+        ]);
 
         $form->handleRequest($request);
 
