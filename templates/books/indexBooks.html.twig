@@ -11,7 +11,8 @@
 			<article>
 				<h2><a href="{{path('app_books_show', {id: book.id}) }}"> {{ book.title }}</a> </h2>
 				<p>{{ book.author }} </p>
-				<p>{{ book.comments }}</p>
+				<p>{{ book.comments|u.truncate(15, '...', true) }}</p>
+				<p>Créer depuis {{ book.createdAt|ago }}</p>
 
 			</article>
 
