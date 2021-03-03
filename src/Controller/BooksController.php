@@ -84,7 +84,7 @@ class BooksController extends AbstractController
         
     }    
       /**
-     * @Route("/books/{id<[0-9]+>}/delete", name="app_books_delete",methods="DELETE")
+     * @Route("/books/{id<[0-9]+>}", name="app_books_delete",methods="DELETE")
      */
     public function delete(Request $request,Book $book, EntityManagerInterface $em): Response
 
