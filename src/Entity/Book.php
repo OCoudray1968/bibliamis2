@@ -6,6 +6,7 @@ use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
 use App\Entity\Traits\Timestampable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -25,11 +26,15 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre ne peut pas être vide")
+     * @Assert\Length(min=3,minMessage="La longueur doit être au moins de 3 caractères")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'auteur ne peut pas être vide")
+     * @Assert\Length(min=5, minMessage="La longueur doit être au moins de 5 caractères")
      */
     private $author;
 
