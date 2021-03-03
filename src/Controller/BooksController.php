@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\denyAccessUnlessGranted;
 
 class BooksController extends AbstractController
 {
@@ -43,7 +44,7 @@ class BooksController extends AbstractController
         }
 
         return $this->render('books/createBooks.html.twig',[
-            'formCreateBook' => $form->createView()
+            'form' => $form->createView()
         ]);
     }
 
@@ -77,9 +78,29 @@ class BooksController extends AbstractController
         }
         return $this->render('books/editBooks.html.twig.', [
             'book' => $book,
-            'formEditBook' => $form->createView()
+            'form' => $form->createView()
         ]);
 
         
     }    
-}
+      /**
+     * @Route("/books/{id<[0-9]+>}/delete", name="app_books_delete",methods="DELETE")
+     */
+    public function delete(Request $request,Book $book, EntityManagerInterface $em): Response
+
+    { 
+        $token = $request->request->get('csrf_token');
+
+        if (isCsrfTokenValid('book_deletion' . $book->getId(), $token)){
+
+            $em->remove($book);
+            $em->flush();
+
+        }
+           
+
+            return $this->redirectToRoute('app_books_index');
+
+        }
+        
+   }

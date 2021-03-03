@@ -6,12 +6,6 @@
 
 	<h1>Création d'un nouveau Livre</h1>
 
-	{{ form_start(formCreateBook) }}
-		
-		{{ form_widget(formCreateBook) }}
-
-		<input type="submit" value="Création du livre" formnovalidate>
-
-	{{ form_end(formCreateBook) }}
+	{{ include('books/_form.html.twig')}}
 
 {% endblock %}
