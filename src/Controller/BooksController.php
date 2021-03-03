@@ -40,6 +40,8 @@ class BooksController extends AbstractController
             $em->persist($book);
             $em->flush();
 
+            $this->addFlash('success', 'Le livre a été créé avec succès');
+
             return $this->redirectToRoute('app_books_index');
 
         }
@@ -74,6 +76,8 @@ class BooksController extends AbstractController
 
             $em->flush();
 
+            $this->addFlash('success', 'Le livre a été modifié avec succès');
+
             return $this->redirectToRoute('app_books_index');
 
         }
@@ -96,6 +100,8 @@ class BooksController extends AbstractController
 
             $em->remove($book);
             $em->flush();
+
+            $this->addFlash('info', 'Le livre a été supprimé avec succès');
 
         }
            
