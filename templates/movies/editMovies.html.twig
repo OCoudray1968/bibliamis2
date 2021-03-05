@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Modifier film #' ~ movie.id %}
+
+{% block body %}
+
+	<h1>Modification du Film #{{ movie.id }}</h1>
+
+	{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier'}) }}
+
+{% endblock %}

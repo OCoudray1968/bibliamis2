@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title game.title %}
+
+{% block body %}
+
+	
+			<article>
+
+				<h1>{{ game.title }}</h1>
+				<p>{{ game.support }} </p>
+				<p>{{ game.comments }}</p>
+
+			</article>
+			<a href="{{path('app_games_edit', {id: game.id})}}">Modifier</a> |
+			<a href="#" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
+			document.getElementById('js-game-delete-form').submit();">Supprimer</a> | 
+			<a href="{{path('app_home')}}">Retour à l'accueil</a> 
+
+			<form id="js-game-delete-form"action="{{path('app_games_delete', {id: game.id})}}" method="post"
+			 style="display:none;">
+			 	<input type="hidden" name="csrf_token" value="{{ csrf_token('game_deletion_' ~ game.id)}}">
+				<input type="hidden" name="_method" value="DELETE">
+			</form>
+	
+
+{% endblock %}

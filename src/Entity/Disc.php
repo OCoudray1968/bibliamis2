@@ -2,21 +2,19 @@
 
 namespace App\Entity;
 
-use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\BookRepository;
+use App\Repository\DiscRepository;
 use App\Entity\Traits\Timestampable;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=BookRepository::class)
- * @ORM\Table(name="books")
+ * @ORM\Entity(repositoryClass=DiscRepository::class)
+ * @ORM\Table(name="discs")
  * @ORM\HasLifecycleCallbacks
  */
-class Book
+class Disc
 {
     use Timestampable;
-
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -26,24 +24,23 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le titre ne peut pas être vide")
-     * @Assert\Length(min=3,minMessage="La longueur doit être au moins de 3 caractères")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="L'auteur ne peut pas être vide")
-     * @Assert\Length(min=5, minMessage="La longueur doit être au moins de 5 caractères")
      */
-    private $author;
+    private $artist;
 
-     /**
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $support;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $comments;
-
-   
 
     public function getId(): ?int
     {
@@ -55,26 +52,37 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(?string $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getArtist(): ?string
     {
-        return $this->author;
+        return $this->artist;
     }
 
-    public function setAuthor(?string $author): self
+    public function setArtist(string $artist): self
     {
-        $this->author = $author;
+        $this->artist = $artist;
 
         return $this;
     }
 
-   
+    public function getSupport(): ?string
+    {
+        return $this->support;
+    }
+
+    public function setSupport(?string $support): self
+    {
+        $this->support = $support;
+
+        return $this;
+    }
+
     public function getComments(): ?string
     {
         return $this->comments;
@@ -86,6 +94,4 @@ class Book
 
         return $this;
     }
-
-   
 }

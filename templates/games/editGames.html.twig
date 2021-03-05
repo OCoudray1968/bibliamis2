@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Modifier jeu #' ~ game.id %}
+
+{% block body %}
+
+    <h1>Modification du Jeu #{{ game.id }}</h1>
+
+    {{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le livre'}) }}
+
+{% endblock %}

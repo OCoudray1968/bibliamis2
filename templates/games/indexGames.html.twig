@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Trouvez tout les jeux de notre ludothèque' %}
+
+{% block body %}
+	<h3><a href="{{path('app_games_create')}}">Créer un Jeu</a></h3>
+
+	<h1> {{ pluralize(games|length, 'Jeu', 'Jeux')}} dans notre ludothèque</h1>
+
+	{%  for game in games %}
+			<article>
+				<h2><a href="{{path('app_games_show', {id: game.id}) }}"> {{ game.title }}</a> </h2>
+				<p>{{ game.support }} </p>
+				<p>{{ game.comments|u.truncate(15, '...', true) }}</p>
+				<p>Créer depuis {{ game.createdAt|ago }}</p>
+
+			</article>
+
+	{% endfor %}
+
+{% endblock %}

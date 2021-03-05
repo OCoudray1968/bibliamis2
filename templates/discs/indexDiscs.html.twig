@@ -1,0 +1,21 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Trouvez tout les disques de notre sonothèque' %}
+
+{% block body %}
+	<h3><a href="{{path('app_discs_create')}}">Créer un disque</a></h3>
+
+	<h1> {{ pluralize(discs|length, 'Disque')}} dans notre Sonothèque</h1>
+
+	{%  for disc in discs %}
+			<article>
+				<h2><a href="{{path('app_discs_show', {id: disc.id}) }}"> {{ disc.title }}</a> </h2>
+				<p>{{ disc.artist }} </p>
+				<p>{{ disc.comments|u.truncate(15, '...', true) }}</p>
+				<p>Créer depuis {{ disc.createdAt|ago }}</p>
+
+			</article>
+
+	{% endfor %}
+
+{% endblock %}

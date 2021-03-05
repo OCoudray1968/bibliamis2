@@ -2,18 +2,16 @@
 
 namespace App\Entity;
 
-use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\BookRepository;
+use App\Repository\GameRepository;
 use App\Entity\Traits\Timestampable;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=BookRepository::class)
- * @ORM\Table(name="books")
+ * @ORM\Entity(repositoryClass=GameRepository::class)
+ * @ORM\Table(name="games")
  * @ORM\HasLifecycleCallbacks
  */
-class Book
+class Game
 {
     use Timestampable;
 
@@ -26,24 +24,18 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le titre ne peut pas être vide")
-     * @Assert\Length(min=3,minMessage="La longueur doit être au moins de 3 caractères")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="L'auteur ne peut pas être vide")
-     * @Assert\Length(min=5, minMessage="La longueur doit être au moins de 5 caractères")
      */
-    private $author;
+    private $support;
 
-     /**
-     * @ORM\Column(type="text", nullable=true)
+    /**
+     * @ORM\Column(type="text")
      */
     private $comments;
-
-   
 
     public function getId(): ?int
     {
@@ -55,26 +47,25 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(?string $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getAuthor(): ?string
+    public function getSupport(): ?string
     {
-        return $this->author;
+        return $this->support;
     }
 
-    public function setAuthor(?string $author): self
+    public function setSupport(string $support): self
     {
-        $this->author = $author;
+        $this->support = $support;
 
         return $this;
     }
 
-   
     public function getComments(): ?string
     {
         return $this->comments;
@@ -86,6 +77,4 @@ class Book
 
         return $this;
     }
-
-   
 }
