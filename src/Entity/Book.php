@@ -50,6 +50,7 @@ class Book
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="book_image", fileNameProperty="imageName")
+     * @Assert\Image(maxSize="8M", maxSizeMessage="Le fichier ne peut pas dépasser 8M")
      * 
      * @var File|null
      */
