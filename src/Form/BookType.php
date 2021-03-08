@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BookType extends AbstractType
@@ -14,6 +15,14 @@ class BookType extends AbstractType
         $builder
             ->add('title')
             ->add('author')
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image (Fichier JPG ou PNG)',
+                'required' => false,
+                'allow_delete' => true,
+                'delete_label' => ' Supprimer ? ',
+                'download_uri' => false,
+            ])
+            
             ->add('comments')
            ;
     }
