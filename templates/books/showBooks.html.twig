@@ -4,24 +4,44 @@
 
 {% block body %}
 
-	
-			<article>
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			<article class="pin bg-white rounded shadow">
+							<div class="mw-100 overflow-hidden rounded-top">
+								<a href="{{path('app_books_show', {id: book.id}) }}">	
+									<img src="{{ (book.imageName ? vich_uploader_asset(book) : asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_small') }}" alt="{{ book.title }}" class="w-100 rounded-top" />
+								</a>
+							</div>
 
-				<h1>{{ book.title }}</h1>
-				<p>{{ book.author }} </p>
-				<p>{{ book.comments }}</p>
+				<div class="pl-3 pt-3">
+							<h3><a href="{{path('app_books_show', {id: book.id}) }}" 
+							class="text-decoration-none"> {{ book.title }}</a> </h5>
+							<p class="pt-3">{{ book.author }} </p>
+							<p class="pt-3">{{ book.comments }}</p>
+							</div>
+							<p class="pl-3 pb-3 text-muted">
+								<small>
+								Créer le {{ book.createdAt|date('d/m/Y') }} par [OWNER FULL NAME]
+								</small>
+							</p>
+				<div class="pl-3 pb-3 mx-auto">
+					<a href="{{path('app_books_edit', {id: book.id})}}" class="btn btn-light">Modifier</a> 
+					<a href="#" class="btn btn-light" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
+					document.getElementById('js-book-delete-form').submit();">Supprimer</a>  
+					<a href="{{path('app_home')}}" class="btn btn-light">Retour à l'accueil</a> 
 
+					<form id="js-book-delete-form"action="{{path('app_books_delete', {id: book.id})}}" method="post"
+					 style="display:none;">
+					 	<input type="hidden" name="csrf_token" value="{{ csrf_token('book_deletion_' ~ book.id)}}">
+						<input type="hidden" name="_method" value="DELETE">
+					</form>
+				</div>
 			</article>
-			<a href="{{path('app_books_edit', {id: book.id})}}">Modifier</a> |
-			<a href="#" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
-			document.getElementById('js-book-delete-form').submit();">Supprimer</a> | 
-			<a href="{{path('app_home')}}">Retour à l'accueil</a> 
-
-			<form id="js-book-delete-form"action="{{path('app_books_delete', {id: book.id})}}" method="post"
-			 style="display:none;">
-			 	<input type="hidden" name="csrf_token" value="{{ csrf_token('book_deletion_' ~ book.id)}}">
-				<input type="hidden" name="_method" value="DELETE">
-			</form>
+			
 	
+		</div>
+	</div>
+	
+			
 
 {% endblock %}
