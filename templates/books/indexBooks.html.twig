@@ -3,19 +3,31 @@
 {% block title 'Trouvez tout les livres de notre bibliothèque' %}
 
 {% block body %}
-	<h3><a href="{{path('app_books_create')}}">Créer un livre</a></h3>
+	{%  if books|length >0  %}
+		<h1 class="mb-4 text-center text-muted "> {{ pluralize(books|length, 'Livre')}} dans notre bibliothèque</h1>
+		{%  for row in books|batch(3) %}
+			<div class=" mb-5 row">
+				{%  for book in row %}
+					<div class="col-md-4">
+						<article class="pin bg-white rounded shadow">
+							<div class="mw-100 overflow-hidden rounded-top">
+								<a href="{{path('app_books_show', {id: book.id}) }}">	
+									<img src="{{ (book.imageName ? vich_uploader_asset(book) : asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ book.title }}" class="w-100 rounded-top" />
+								</a>
+							</div>
+							<div class="pl-3 pt-3"
+							<h5><a href="{{path('app_books_show', {id: book.id}) }}" class="text-secondary text-decoration-none"> {{ book.title }}</a> </h5>
+							<p class="pt-3">{{ book.author }} </p>
+							</div>
+							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ book.createdAt|date('d/m/Y') }}</small></p>
 
-	<h1> {{ pluralize(books|length, 'Livre')}} dans notre bibliothèque</h1>
-
-	{%  for book in books %}
-			<article>
-				<h2><a href="{{path('app_books_show', {id: book.id}) }}"> {{ book.title }}</a> </h2>
-				<p>{{ book.author }} </p>
-				<p>{{ book.comments|u.truncate(15, '...', true) }}</p>
-				<p>Créer depuis {{ book.createdAt|ago }}</p>
-
-			</article>
-
-	{% endfor %}
+						</article>
+					</div>	
+				{% endfor %}
+			</div>
+		{% endfor %}
+	{% else %}
+		<p class="h1 mt-5 text-center">Pas encore de livres <a href="{{path('app_books_create')}}">soyez le premier</a></p>
+	{% endif %}	
 
 {% endblock %}
