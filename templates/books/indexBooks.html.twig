@@ -16,7 +16,8 @@
 						<article class="pin bg-white rounded shadow">
 							<div class="mw-100 overflow-hidden rounded-top">
 								<a href="{{path('app_books_show', {id: book.id}) }}">	
-									<img src="{{ (book.imageName ? vich_uploader_asset(book) : asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ book.title }}" class="w-100 rounded-top" />
+									<img src="{{ (book.imageName ? vich_uploader_asset(book) :
+									 asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ book.title }}" class="w-100 rounded-top" />
 								</a>
 							</div>
 							<div class="pl-3 pt-3"

@@ -6,4 +6,15 @@ vich_uploader:
             uri_prefix: /uploads/books
             upload_destination: '%kernel.project_dir%/public/uploads/books'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-
+        movie_image:
+            uri_prefix: /uploads/movies
+            upload_destination: '%kernel.project_dir%/public/uploads/movies'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        disc_image:
+            uri_prefix: /uploads/discs
+            upload_destination: '%kernel.project_dir%/public/uploads/discs'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        game_image:
+            uri_prefix: /uploads/games
+            upload_destination: '%kernel.project_dir%/public/uploads/games'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

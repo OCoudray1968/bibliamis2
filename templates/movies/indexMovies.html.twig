@@ -3,19 +3,38 @@
 {% block title 'Trouvez tout les films de notre vidéothèque' %}
 
 {% block body %}
-	<h3><a href="{{path('app_movies_create')}}">Créer un film</a></h3>
+	
+	{%  if movies|length >0  %}
+		<h1 class="mb-4 text-center text-muted "> {{ pluralize(movies|length, 'Film')}} dans notre vidéothèque
+		<h3 class="mb-4 text-center">
+		<a href="{{path('app_movies_create')}}">Créer un nouveau Film</a>
+		</h3>
+		</h1>
 
-	<h1> {{ pluralize(movies|length, 'Film')}} dans notre vidéothèque</h1>
+		{%  for row in movies|batch(3) %}
+			<div class=" mb-5 row">
+				{%  for movie in row %}
+					<div class="col-md-4">
+						<article class="pin bg-white rounded shadow">
+							<div class="mw-100 overflow-hidden rounded-top">
+								<a href="{{path('app_movies_show', {id: movie.id}) }}">	
+									<img src="{{ (movie.imageName ? vich_uploader_asset(movie) :
+									 asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ movie.title }}" class="w-100 rounded-top" />
+								</a>
+							</div>
+							<div class="pl-3 pt-3"
+							<h5><a href="{{path('app_movies_show', {id: movie.id}) }}" class="text-secondary text-decoration-none"> {{ movie.title }}</a> </h5>
+							<p class="pt-3">{{ movie.director  }} </p>
+							</div>
+							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ movie.createdAt|date('d/m/Y') }}</small></p>
 
-	{%  for movie in movies %}
-			<article>
-				<h2><a href="{{path('app_movies_show', {id: movie.id}) }}"> {{ movie.title }}</a> </h2>
-				<p>{{ movie.director }} </p>
-				<p>{{ movie.comments|u.truncate(15, '...', true) }}</p>
-				<p>Créer depuis {{ movie.createdAt|ago }}</p>
-
-			</article>
-
-	{% endfor %}
+						</article>
+					</div>	
+				{% endfor %}
+			</div>
+		{% endfor %}
+		{% else %}
+		<p class="h1 mt-5 text-center">Pas encore de films <a href="{{path('app_movies_create')}}">soyez le premier</a></p>
+	{% endif %}	
 
 {% endblock %}

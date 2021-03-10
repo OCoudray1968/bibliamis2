@@ -3,19 +3,36 @@
 {% block title 'Trouvez tout les jeux de notre ludothèque' %}
 
 {% block body %}
-	<h3><a href="{{path('app_games_create')}}">Créer un Jeu</a></h3>
+{%  if games|length >0  %}
+		<h1 class="mb-4 text-center text-muted "> {{ pluralize(games|length, 'Jeu', 'Jeux')}} dans notre ludothèque
+		<h3 class="mb-4 text-center">
+		<a href="{{path('app_games_create')}}">Créer un nouveau Jeu</a>
+		</h3>
+		</h1>
+		{%  for row in games|batch(3) %}
+			<div class=" mb-5 row">
+				{%  for game in row %}
+					<div class="col-md-4">
+						<article class="pin bg-white rounded shadow">
+							<div class="mw-100 overflow-hidden rounded-top">
+								<a href="{{path('app_games_show', {id: game.id}) }}">	
+									<img src="{{ (game.imageName ? vich_uploader_asset(game) :
+									 asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ game.title }}" class="w-100 rounded-top" />
+								</a>
+							</div>
+							<div class="pl-3 pt-3"
+							<h5><a href="{{path('app_games_show', {id: game.id}) }}" class="text-secondary text-decoration-none"> {{ game.title }}</a> </h5>
+							<p class="pt-3">{{ game.support }} </p>
+							</div>
+							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ game.createdAt|date('d/m/Y') }}</small></p>
 
-	<h1> {{ pluralize(games|length, 'Jeu', 'Jeux')}} dans notre ludothèque</h1>
-
-	{%  for game in games %}
-			<article>
-				<h2><a href="{{path('app_games_show', {id: game.id}) }}"> {{ game.title }}</a> </h2>
-				<p>{{ game.support }} </p>
-				<p>{{ game.comments|u.truncate(15, '...', true) }}</p>
-				<p>Créer depuis {{ game.createdAt|ago }}</p>
-
-			</article>
-
-	{% endfor %}
+						</article>
+					</div>	
+				{% endfor %}
+			</div>
+		{% endfor %}
+	{% else %}
+		<p class="h1 mt-5 text-center">Pas encore de livres <a href="{{path('app_games_create')}}">soyez le premier</a></p>
+	{% endif %}	
 
 {% endblock %}

@@ -3,25 +3,43 @@
 {% block title game.title %}
 
 {% block body %}
+<div class="row">
+		<div class="col-md-6 mx-auto">
+			<article class="pin bg-white rounded shadow">
+							<div class="mw-100 overflow-hidden rounded-top">
+							<a href="{{path('app_games_show', {id: game.id}) }}">	
+									<img src="{{ (game.imageName ? vich_uploader_asset(game) :
+									 asset('build/images/default.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ game.title }}" class="w-100 rounded-top" />
+								</a>
+							</div>
 
-	
-			<article>
+				<div class="pl-3 pt-3">
+							<h3><a href="{{path('app_games_show', {id: game.id}) }}" 
+							class="text-decoration-none"> {{ game.title }}</a> </h5>
+							<p class="pt-3">{{ game.support }} </p>
+							<p class="pt-3">{{ game.comments }}</p>
+							</div>
+							<p class="pl-3 pb-3 text-muted">
+								<small>
+								Créer le {{ game.createdAt|date('d/m/Y') }} par [OWNER FULL NAME]
+								</small>
+							</p>
+				<div class="pl-3 pb-3 mx-auto">
+					<a href="{{path('app_games_edit', {id: game.id})}}" class="btn btn-light">Modifier</a> 
+					<a href="#" class="btn btn-light" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
+					document.getElementById('js-game-delete-form').submit();">Supprimer</a>  
+					<a href="{{path('app_games_index')}}" class="btn btn-light">Retour à l'accueil</a> 
 
-				<h1>{{ game.title }}</h1>
-				<p>{{ game.support }} </p>
-				<p>{{ game.comments }}</p>
-
+					<form id="js-game-delete-form"action="{{path('app_games_delete', {id: game.id})}}" method="post"
+					 style="display:none;">
+					 	<input type="hidden" name="csrf_token" value="{{ csrf_token('game_deletion_' ~ game.id)}}">
+						<input type="hidden" name="_method" value="DELETE">
+					</form>
+				</div>
 			</article>
-			<a href="{{path('app_games_edit', {id: game.id})}}">Modifier</a> |
-			<a href="#" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
-			document.getElementById('js-game-delete-form').submit();">Supprimer</a> | 
-			<a href="{{path('app_home')}}">Retour à l'accueil</a> 
-
-			<form id="js-game-delete-form"action="{{path('app_games_delete', {id: game.id})}}" method="post"
-			 style="display:none;">
-			 	<input type="hidden" name="csrf_token" value="{{ csrf_token('game_deletion_' ~ game.id)}}">
-				<input type="hidden" name="_method" value="DELETE">
-			</form>
+			
 	
+		</div>
+	</div>
 
 {% endblock %}
