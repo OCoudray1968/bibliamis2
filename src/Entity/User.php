@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Monolog\DateTimeImmutable;
 use App\Repository\UserRepository;
 use App\Entity\Traits\Timestampable;
@@ -49,6 +51,34 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $books;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Disc::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $discs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $games;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Movie::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $movies;
+
+    public function __construct()
+    {
+        $this->books = new ArrayCollection();
+        $this->discs = new ArrayCollection();
+        $this->games = new ArrayCollection();
+        $this->movies = new ArrayCollection();
+    }
 
     
     public function getId(): ?int
@@ -154,6 +184,126 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Book[]
+     */
+    public function getBooks(): Collection
+    {
+        return $this->books;
+    }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if ($this->books->removeElement($book)) {
+            // set the owning side to null (unless already changed)
+            if ($book->getUser() === $this) {
+                $book->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Disc[]
+     */
+    public function getDiscs(): Collection
+    {
+        return $this->discs;
+    }
+
+    public function addDisc(Disc $disc): self
+    {
+        if (!$this->discs->contains($disc)) {
+            $this->discs[] = $disc;
+            $disc->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDisc(Disc $disc): self
+    {
+        if ($this->discs->removeElement($disc)) {
+            // set the owning side to null (unless already changed)
+            if ($disc->getUser() === $this) {
+                $disc->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            // set the owning side to null (unless already changed)
+            if ($game->getUser() === $this) {
+                $game->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Movie[]
+     */
+    public function getMovies(): Collection
+    {
+        return $this->movies;
+    }
+
+    public function addMovie(Movie $movie): self
+    {
+        if (!$this->movies->contains($movie)) {
+            $this->movies[] = $movie;
+            $movie->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMovie(Movie $movie): self
+    {
+        if ($this->movies->removeElement($movie)) {
+            // set the owning side to null (unless already changed)
+            if ($movie->getUser() === $this) {
+                $movie->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }
