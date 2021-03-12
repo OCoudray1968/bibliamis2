@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,14 +30,16 @@ class BooksController extends AbstractController
      /**
      * @Route("/books/create", name="app_books_create", methods="GET|POST")
      */
-    public function create(Request $request, EntityManagerInterface $em):Response
+    public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo):Response
     {
         $book = new Book;
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $olivier = $userRepo->findOneBy(['email' => 'ocoudray@hotmail.fr']);
 
+            $book->setUser($olivier);
             $em->persist($book);
             $em->flush();
 
