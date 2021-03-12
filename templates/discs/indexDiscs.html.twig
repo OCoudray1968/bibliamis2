@@ -24,7 +24,7 @@
 							<h5><a href="{{path('app_discs_show', {id: disc.id}) }}" class="text-secondary text-decoration-none"> {{ disc.title }}</a> </h5>
 							<p class="pt-3">{{ disc.artist }} </p>
 							</div>
-							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ disc.createdAt|date('d/m/Y') }}</small></p>
+							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ disc.createdAt|date('d/m/Y') }} par {{disc.user.fullName}}</small></p>
 
 						</article>
 					</div>	

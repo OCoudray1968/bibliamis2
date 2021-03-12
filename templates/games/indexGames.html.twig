@@ -24,7 +24,7 @@
 							<h5><a href="{{path('app_games_show', {id: game.id}) }}" class="text-secondary text-decoration-none"> {{ game.title }}</a> </h5>
 							<p class="pt-3">{{ game.support }} </p>
 							</div>
-							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ game.createdAt|date('d/m/Y') }}</small></p>
+							<p class="pl-3 pb-3 text-muted"><small>Créer le {{ game.createdAt|date('d/m/Y') }} par {{game.user.fullName}}</small></p>
 
 						</article>
 					</div>	
