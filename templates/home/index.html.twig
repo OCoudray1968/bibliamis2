@@ -3,6 +3,12 @@
 {% block title 'Partagez vos médias avec vos amis' %}
 
 {% block body %}
-	<h1>Page d'accueil de BibliAmis</h1>
-	<a href="{{path('app_books_index')}}">Livres</a>
+	{% if app.user %}
+		<h1 class="text-center ">Bienvenue {{ app.user.firstName}}</h1>
+		
+	{% else %}
+
+		<h1 class="text-center ">Bonjour, Veuillez vous connecter</h1>
+
+	{% endif %}	
 {% endblock %}
