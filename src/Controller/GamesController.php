@@ -36,7 +36,7 @@ class GamesController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            $game->setUser($this->getUser());
             $em->persist($game);
             $em->flush();
 

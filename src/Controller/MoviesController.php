@@ -35,7 +35,7 @@ class MoviesController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            $movie->setUser($this->getUser());
             $em->persist($movie);
             $em->flush();
 

@@ -33,7 +33,7 @@ class DiscsController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            $disc->setUser($this->getUser());
             $em->persist($disc);
             $em->flush();
 

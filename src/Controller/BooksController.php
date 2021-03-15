@@ -37,9 +37,8 @@ class BooksController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $olivier = $userRepo->findOneBy(['email' => 'ocoudray@hotmail.fr']);
-
-            $book->setUser($olivier);
+            
+            $book->setUser($this->getUser());
             $em->persist($book);
             $em->flush();
 
