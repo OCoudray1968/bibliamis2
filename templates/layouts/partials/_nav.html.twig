@@ -31,7 +31,7 @@
             </li>
 
             <form id="js-logout-form" action="{{path('app_logout')}}" method="POST" style="display: none;">
-              <input type="hidden" name="_csrf_token" value="{{csrf_token('logout')}}">
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout')}}">
             </form>
           {% else %}
             </ul>
