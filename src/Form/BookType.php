@@ -7,13 +7,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BookType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', TextType::class)
             ->add('author')
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image (Fichier JPG ou PNG)',
@@ -24,7 +26,7 @@ class BookType extends AbstractType
                 'imagine_pattern' => 'squared_thumbnail_small'
             ])
             
-            ->add('comments')
+            ->add('comments', TextareaType::class)
            ;
     }
 
