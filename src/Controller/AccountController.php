@@ -15,6 +15,7 @@ class AccountController extends AbstractController
 {
     /**
      * @Route("/account", name="app_account", methods="GET")
+     * @IsGranted("ROLE_USER")
      */
     public function show(): Response
     {
@@ -24,6 +25,7 @@ class AccountController extends AbstractController
 
    /**
      * @Route("/account/edit", name="app_account_edit", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
@@ -48,6 +50,7 @@ class AccountController extends AbstractController
     }
     /**
      * @Route("/account/change-password", name="app_account_change_password", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
 public function changePassword(Request $request, EntityManagerInterface $em,
 	 UserPasswordEncoderInterface $passwordEncoder): Response
