@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -24,14 +25,16 @@ class AccountController extends AbstractController
     }
 
    /**
-     * @Route("/account/edit", name="app_account_edit", methods={"GET","POST"})
+     * @Route("/account/edit", name="app_account_edit", methods={"GET","PATCH"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function edit(Request $request, EntityManagerInterface $em): Response
     {
         
     	$user = $this->getUser();	
-    	$form = $this->createForm(UserFormType::class, $user);
+    	$form = $this->createForm(UserFormType::class, $user, [
+            'method' => 'PATCH'
+        ]);
 
     	$form->handleRequest($request);
 
@@ -49,7 +52,7 @@ class AccountController extends AbstractController
      	]);
     }
     /**
-     * @Route("/account/change-password", name="app_account_change_password", methods={"GET","POST"})
+     * @Route("/account/change-password", name="app_account_change_password", methods={"GET","PATCH"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
 public function changePassword(Request $request, EntityManagerInterface $em,
@@ -58,7 +61,9 @@ public function changePassword(Request $request, EntityManagerInterface $em,
 
     	$user = $this->getUser();	
     	$form = $this->createForm(ChangePasswordFormType::class, null, [
-    		'current_password_is_required' => true]);
+    		'current_password_is_required' => true,
+            'method' => 'PATCH'
+        ]);
 
     	$form->handleRequest($request);
 
