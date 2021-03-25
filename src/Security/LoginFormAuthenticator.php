@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -109,4 +110,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
+    /**
+    * Override to control what happens when the user hits a seure page
+    * but isn't logged yet 
+    *
+    * @return RedirectResponse
+    */
+
+    public function start(Request $request, AuthenticationException $authExecption = null)
+    {
+        
+        $request->getSession()->getFlashBag()->add('error', 'Vous devez être connecté!');
+        $url = $this->getLoginUrl();
+
+        return new redirectResponse($url);
+    }
+
 }

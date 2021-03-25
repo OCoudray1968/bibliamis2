@@ -3,9 +3,11 @@
 {% block title 'Modifier film #' ~ movie.id %}
 
 {% block body %}
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			<h1>Modification du Film #{{ movie.id }}</h1>
 
-	<h1>Modification du Film #{{ movie.id }}</h1>
-
-	{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le film'}) }}
-
+			{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le film'}) }}
+		</div>
+	</div>
 {% endblock %}

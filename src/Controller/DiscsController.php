@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DiscsController extends AbstractController
 {
@@ -25,6 +26,7 @@ class DiscsController extends AbstractController
 
      /**
      * @Route("/discs/create", name="app_discs_create", methods="GET|POST")
+     * @Security("is_granted('ROLE_USER') && user.isVerified()")
      */
     public function create(Request $request, EntityManagerInterface $em):Response
     {
@@ -59,6 +61,7 @@ class DiscsController extends AbstractController
 
      /**
      * @Route("/discss/{id<[0-9]+>}/edit", name="app_discs_edit",methods="GET|PUT")
+     * @Security("is_granted('ROLE_USER') && user.isVerified() && disk.getUser() == user")
      */
     public function edit(Request $request,Disc $disc, EntityManagerInterface $em): Response
 
@@ -86,7 +89,8 @@ class DiscsController extends AbstractController
         
     }    
       /**
-     * @Route("/discs/{id<[0-9]+>}", name="app_discs_delete",methods="DELETE")
+     * @Route("/discs/{id<[0-9]+>}/delete", name="app_discs_delete",methods="DELETE")
+     * @Security("is_granted('ROLE_USER') && user.isVerified() && disc.getUser() == user")
      */
     public function delete(Request $request,Disc $disc, EntityManagerInterface $em): Response
 

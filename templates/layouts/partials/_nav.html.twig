@@ -22,6 +22,11 @@
             </li>
             </ul>
             <ul class="navbar-nav mx-auto">
+            {% if is_granted('ROLE_ADMIN') %}
+               <li class="nav-item">
+              <a class="nav-link"  href="{{path('app_admin')}}">Admin</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link"  href="{{path('app_account')}}">Compte</a>
             </li>

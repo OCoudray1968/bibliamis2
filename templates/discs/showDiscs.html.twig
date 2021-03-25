@@ -22,18 +22,20 @@
 								Créer le {{ disc.createdAt|date('d/m/Y') }} par {{disc.user.fullName}}
 								</small>
 							</p>
-					<div class="mx-auto">
-						<a href="{{path('app_discs_edit', {id: disc.id})}}" class="btn btn-light">Modifier</a> 
-						<a href="#" class="btn btn-light" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
-						document.getElementById('js-disc-delete-form').submit();">Supprimer</a>  
-						<a href="{{path('app_discs_index')}}" class="btn btn-light">Retour</a> 
+					{% if app.user == disc.user %}
+						<div class="mx-auto">
+							<a href="{{path('app_discs_edit', {id: disc.id})}}" class="btn btn-light">Modifier</a> 
+							<a href="#" class="btn btn-light" onclick="event.preventDefault(); confirm('Etes vous sûr ?') &&
+							document.getElementById('js-disc-delete-form').submit();">Supprimer</a>  
+							<a href="{{path('app_discs_index')}}" class="btn btn-light">Retour</a> 
 
-						<form id="js-disc-delete-form"action="{{path('app_discs_delete', {id: disc.id})}}" method="post"
-						 style="display:none;">
-						 	<input type="hidden" name="csrf_token" value="{{ csrf_token('disc_deletion_' ~ disc.id)}}">
-							<input type="hidden" name="_method" value="DELETE">
-						</form>
-					</div>
+							<form id="js-disc-delete-form"action="{{path('app_discs_delete', {id: disc.id})}}" method="post"
+							 style="display:none;">
+							 	<input type="hidden" name="csrf_token" value="{{ csrf_token('disc_deletion_' ~ disc.id)}}">
+								<input type="hidden" name="_method" value="DELETE">
+							</form>
+						</div>
+					{% endif %}
 				</div>
 			</article>
 			

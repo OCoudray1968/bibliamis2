@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\isCsrfTokenValid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\denyAccessUnlessGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MoviesController extends AbstractController
 {
@@ -27,6 +28,7 @@ class MoviesController extends AbstractController
 
      /**
      * @Route("/movies/create", name="app_movies_create", methods="GET|POST")
+     * @Security("is_granted('ROLE_USER') && user.isVerified()")
      */
     public function create(Request $request, EntityManagerInterface $em):Response
     {
@@ -61,6 +63,7 @@ class MoviesController extends AbstractController
 
      /**
      * @Route("/movies/{id<[0-9]+>}/edit", name="app_movies_edit",methods="GET|PUT")
+     * @Security("is_granted('ROLE_USER') && user.isVerified() && movie.getUser() == user")
      */
     public function edit(Request $request,Movie $movie, EntityManagerInterface $em): Response
 
@@ -88,7 +91,8 @@ class MoviesController extends AbstractController
         
     }    
       /**
-     * @Route("/movies/{id<[0-9]+>}", name="app_movies_delete",methods="DELETE")
+     * @Route("/movies/{id<[0-9]+>}/delete", name="app_movies_delete",methods="DELETE")
+     * @Security("is_granted('ROLE_USER') && user.isVerified() && movie.getUser() == user")
      */
     public function delete(Request $request,Movie $movie, EntityManagerInterface $em): Response
 

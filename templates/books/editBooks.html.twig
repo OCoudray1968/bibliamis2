@@ -3,9 +3,16 @@
 {% block title 'Modifier livre #' ~ book.id %}
 
 {% block body %}
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			
+			<h1>Modification du Livre #{{ book.id }}</h1>
 
-	<h1>Modification du Livre #{{ book.id }}</h1>
+			{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le livre'}) }}
 
-	{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le livre'}) }}
+		</div>
 
+	</div>
+
+	
 {% endblock %}

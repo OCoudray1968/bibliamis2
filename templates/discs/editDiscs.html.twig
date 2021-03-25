@@ -4,8 +4,11 @@
 
 {% block body %}
 
-	<h1>Modification du Disque #{{ disc.id }}</h1>
+	<div class="row">
+		<div class="col-md-6 mx-auto">
+			<h1>Modification du Disque #{{ disc.id }}</h1>
 
-	{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le disque'}) }}
-
+			{{ include('layouts/partials/_form.html.twig', {'submitButtonText': 'Modifier le disque'}) }}
+		</div>
+	</div>	
 {% endblock %}

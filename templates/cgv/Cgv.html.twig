@@ -1,4 +1,10 @@
-<span style="font-style:normal;font-weight:bold;text-decoration:underline;">CONDITIONS GÉNÉRALES</span><br><br>Les présentes conditions générales régissent l’utilisation de ce site <span style="font-style:italic;font-weight:normal;">Bibliamis.fr</span>.<br>Ce site appartient et est géré par Olivier Coudray<br>En utilisant ce site, vous indiquez que vous avez lu et compris les conditions d’utilisation et que vous acceptez de les respecter en tout temps.<br><br>Type de site : portfolio
+{% extends 'layouts/base.html.twig' %}
+
+{% block title "Nouveau Disque" %}
+
+{% block body %}
+
+	<span style="font-style:normal;font-weight:bold;text-decoration:underline;">CONDITIONS GÉNÉRALES</span><br><br>Les présentes conditions générales régissent l’utilisation de ce site <span style="font-style:italic;font-weight:normal;">Bibliamis.fr</span>.<br>Ce site appartient et est géré par Olivier Coudray<br>En utilisant ce site, vous indiquez que vous avez lu et compris les conditions d’utilisation et que vous acceptez de les respecter en tout temps.<br><br>Type de site : portfolio
 <span style="font-style:normal;font-weight:bold;text-decoration:underline;">Propriété intellectuelle</span><br><br>Tout contenu publié et mis à disposition sur ce site est la propriété de Olivier Coudray et de ses créateurs. Cela comprend, mais n’est pas limité aux images, textes, logos, documents, fichiers téléchargeables et tout ce qui contribue à la composition de ce site.
 <p style="line-height:18.0pt;font-size:12.0pt;line-height:18.0pt;font-family:Times New Roman;color:#000000;text-align:Left;"><span style="font-style:normal;font-weight:bold;text-decoration:underline;">Restrictions d'âge</span><br><br>L’âge minimum pour utiliser ce site est de 10 ans. Les utilisateurs conviennent qu’en utilisant notre site, ils ont plus de 10 ans. Nous n’assumons aucune responsabilité juridique pour les fausses déclarations sur l’âge.
 </p>	
@@ -63,7 +69,10 @@
 
 	<p style="line-height:18.0pt;font-size:12.0pt;line-height:18.0pt;font-family:Times New Roman;color:#000000;text-align:Left;"><span style="font-style:normal;font-weight:bold;text-decoration:underline;">Contact</span><br><br>Veuillez communiquer avec nous si vous avez des questions ou des préoccupations. Nos coordonnées sont les suivantes :<br><br>ocoudray@hotmail.fr<br><br>163 A avenue sainte Marguerite, 06200, Nice
 	</p>
-	<span style="font-style:italic;font-weight:normal;">Date d'entrée en vigueur : </span>le _________________.
+	<span style="font-style:italic;font-weight:normal;">Date d'entrée en vigueur : </span>le 01 Mars 2021.
 	
-	<p>© 2002-2021, DocumentsLégaux™ (Sequiter Inc.)</p>
 					
+	<a class="mt-3 btn btn-lg btn-block btn-primary" href="{{path('app_register')}}">Retour</a>
+{% endblock %}
+
+

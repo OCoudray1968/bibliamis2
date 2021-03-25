@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\isCsrfTokenValid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\denyAccessUnlessGranted;
@@ -29,6 +31,7 @@ class BooksController extends AbstractController
     
      /**
      * @Route("/books/create", name="app_books_create", methods="GET|POST")
+     * @Security("is_granted('ROLE_USER') and user.isVerified()")
      */
     public function create(Request $request, EntityManagerInterface $em, UserRepository $userRepo):Response
     {
@@ -64,10 +67,12 @@ class BooksController extends AbstractController
 
      /**
      * @Route("/books/{id<[0-9]+>}/edit", name="app_books_edit",methods="GET|PUT")
-     */
+     *  @Security("is_granted('BOOK_MANAGE', book)")
+     */ 
     public function edit(Request $request,Book $book, EntityManagerInterface $em): Response
 
     {
+
         $form = $this->createForm(BookType::class, $book, [
             'method' => 'PUT'
         ]);
@@ -91,14 +96,17 @@ class BooksController extends AbstractController
         
     }    
       /**
-     * @Route("/books/{id<[0-9]+>}", name="app_books_delete",methods="DELETE")
+     * @Route("/books/{id<[0-9]+>}/delete", name="app_books_delete",methods="DELETE")
+     * @IsGranted("BOOK_MANAGE", subject="book")
      */
     public function delete(Request $request,Book $book, EntityManagerInterface $em): Response
 
     { 
-        $token = $request->request->get('csrf_token');
 
-        if ($this->isCsrfTokenValid('book_deletion_' . $book->getId(), $token)){
+
+        
+
+        if ($this->isCsrfTokenValid('book_deletion_' . $book->getId(), $request->request->get('csrf_token'))){
 
             $em->remove($book);
             $em->flush();
