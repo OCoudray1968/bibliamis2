@@ -4,13 +4,14 @@ namespace App\Form;
 
 use App\Entity\Search\BookSearch;
 use App\Entity\Search\DiscSearch;
+use App\Entity\Search\GameSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DiscSearchType extends AbstractType
+class GameSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,11 +23,11 @@ class DiscSearchType extends AbstractType
                     'placeholder' => 'Déposé par'
                 ]
             ])
-            ->add('artist', TextType::class, [
+            ->add('title', TextType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Artiste'
+                    'placeholder' => 'Titre'
                 ]
             ])
         ;
@@ -35,7 +36,7 @@ class DiscSearchType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => DiscSearch::class,
+            'data_class' => GameSearch::class,
             'method' => 'get',
             'csrf_protection' => false
         ]);

@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Gender;
 use App\Entity\Movie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -14,6 +16,11 @@ class MovieType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('genders', EntityType::class, [
+                'class' => Gender::class,
+                'label' => 'Genre',
+                'choice_label' => 'genre',
+            ])
             ->add('director')
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image (Fichier JPG ou PNG)',

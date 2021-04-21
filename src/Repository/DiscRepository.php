@@ -22,7 +22,7 @@ class DiscRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Query Returns an array of Book objects
+     * @return Query Returns an array of Disc objects
      *
      */
     public function findAllVisibleQuery(DiscSearch  $search): Query
@@ -46,7 +46,7 @@ class DiscRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Disc[] Returns an array of Book objects
+     * @return Disc[] Returns an array of Disc objects
      *
      */
     public function findLatest(): array

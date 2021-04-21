@@ -8,6 +8,26 @@
 		<h3 class="mb-4 text-center">
 		<a href="{{path('app_games_create')}}">Créer un nouveau Jeu</a>
 		</h3>
+			<div class="jumbotron">
+				<div class="container">
+					{{ form_start(form) }}
+					<div class="form-row align-items-end">
+						<div class="col">
+							{{ form_row(form.depositary) }}
+						</div>
+						<div class="col">
+							{{ form_row(form.title) }}
+						</div>
+						<div class="col">
+							<div class="form-group">
+								<button class="btn btn-primary">Rechercher</button>
+							</div>
+						</div>
+					</div>
+
+					{{ form_end(form) }}
+				</div>
+			</div>
 		</h1>
 		{%  for row in games|batch(3) %}
 			<div class=" mb-5 row">
@@ -32,7 +52,7 @@
 			</div>
 		{% endfor %}
 	{% else %}
-		<p class="h1 mt-5 text-center">Pas encore de livres <a href="{{path('app_games_create')}}">soyez le premier</a></p>
+		<p class="h1 mt-5 text-center">Pas encore de jeux <a href="{{path('app_games_create')}}">soyez le premier</a></p>
 	{% endif %}	
 
 {% endblock %}

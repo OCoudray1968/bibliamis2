@@ -69,7 +69,7 @@ class Disc
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="books")
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="discs")
      */
     private $genders;
 

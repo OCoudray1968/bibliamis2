@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\Search\MovieSearch;
+use App\Form\MovieSearchType;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,19 +19,48 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class MoviesController extends AbstractController
 {
+    /**
+     * @var MovieRepository
+     */
+
+    private $repository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+
+    private $em;
+
+    public function __construct(MovieRepository $repository, EntityManagerInterface $em)
+    {
+        $this->repository = $repository;
+        $this->em = $em;
+    }
      /**
      * @Route("/movies", name="app_movies_index",methods="GET")
      */
-    public function index(MovieRepository $movieRepository): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $movies = $movieRepository->findBy([],['createdAt' =>'DESC']);
+        $search = new MovieSearch();
+        $form = $this->createForm(MovieSearchType::class, $search);
+        $form->handleRequest($request);
 
-        return $this->render('movies/indexMovies.html.twig', compact('movies'));
+        $movies = $paginator->paginate(
+            $this->repository->findAllVisibleQuery($search),
+            $request->query->getInt('page',1),
+            6
+        );
+
+        return $this->render('movies/indexMovies.html.twig', [
+            'current_menu' => 'movies',
+            'movies' =>$movies,
+            'form' => $form->createView()
+        ]);
     }
 
      /**
      * @Route("/movies/create", name="app_movies_create", methods="GET|POST")
-     * @Security("is_granted('ROLE_USER') && user.isVerified()")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function create(Request $request, EntityManagerInterface $em):Response
     {
@@ -63,7 +95,7 @@ class MoviesController extends AbstractController
 
      /**
      * @Route("/movies/{id<[0-9]+>}/edit", name="app_movies_edit",methods="GET|PUT")
-     * @Security("is_granted('ROLE_USER') && user.isVerified() && movie.getUser() == user")
+     * @Security("is_granted('ROLE_USER') && movie.getUser() == user")
      */
     public function edit(Request $request,Movie $movie, EntityManagerInterface $em): Response
 
@@ -92,7 +124,7 @@ class MoviesController extends AbstractController
     }    
       /**
      * @Route("/movies/{id<[0-9]+>}/delete", name="app_movies_delete",methods="DELETE")
-     * @Security("is_granted('ROLE_USER') && user.isVerified() && movie.getUser() == user")
+     * @Security("is_granted('ROLE_USER') && movie.getUser() == user")
      */
     public function delete(Request $request,Movie $movie, EntityManagerInterface $em): Response
 

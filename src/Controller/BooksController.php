@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Entity\Gender;
 use App\Entity\Search\BookSearch;
 use App\Form\BookSearchType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
-use App\Repository\GenderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -70,13 +68,10 @@ class BooksController extends AbstractController
      * @Route("/books/create", name="app_books_create", methods="GET|POST")
      * @Security("is_granted('ROLE_USER')")
      */
-    public function create(Request $request, UserRepository $userRepo, GenderRepository $genderRepo):Response
+    public function create(Request $request, UserRepository $userRepo):Response
     {
         $book = new Book;
-
-
-
-        $form = $this->createForm(BookType::class, $book);
+    $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){

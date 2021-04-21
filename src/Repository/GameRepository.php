@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Game;
+use App\Entity\Search\GameSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +21,45 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
-    // /**
-    //  * @return Game[] Returns an array of Game objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+     * @return Query Returns an array of Game objects
+     *
+     */
+    public function findAllVisibleQuery(GameSearch  $search): Query
 
-    /*
-    public function findOneBySomeField($value): ?Game
     {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->findVisibleQuery();
+
+        if ($search->getDepositary()) {
+            $query = $query
+                ->andWhere('g.user = :depositary' )
+                ->setParameter('depositary', $search->getDepositary());
+        }
+
+        if ($search->getTitle()) {
+            $query = $query
+                ->andWhere('g.title= :title' )
+                ->setParameter('artist', $search->getTitle());
+        }
+        return $query->getQuery();
+
     }
-    */
+
+    /**
+     * @return Game[] Returns an array of Game objects
+     *
+     */
+    public function findLatest(): array
+
+    {
+        return $this->findVisibleQuery()
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function findVisibleQuery(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('g');
+    }
 }

@@ -64,10 +64,9 @@ class Game
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Gender::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="games")
      */
-    private $id_gender;
+    private $genders;
 
     public function getId(): ?int
     {
@@ -154,14 +153,33 @@ class Game
         return $this;
     }
 
-    public function getIdGender(): ?Gender
+    public function getGenders(): ?Gender
     {
-        return $this->id_gender;
+        return $this->genders;
     }
 
-    public function setIdGender(?Gender $id_gender): self
+    public function setGenders(?Gender $gender): self
     {
-        $this->id_gender = $id_gender;
+        $this->genders = $gender;
+
+        return $this;
+    }
+
+
+    public function addGender(Gender $gender): self
+    {
+        if (!$this->genders->contains($gender)) {
+            $this->genders[] = $gender;
+            $gender->addGame($this);
+        }
+        return $this;
+    }
+
+    public function removeGender(Gender $gender): self
+    {
+        if ($this->genders->removeElement($gender)) {
+            $gender->removeGame($this);
+        }
 
         return $this;
     }
