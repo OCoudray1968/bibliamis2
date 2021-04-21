@@ -51,6 +51,10 @@
 				{% endfor %}
 			</div>
 		{% endfor %}
+	<div class="pagination">
+		{{  knp_pagination_render(games) }}
+
+	</div>
 	{% else %}
 		<p class="h1 mt-5 text-center">Pas encore de jeux <a href="{{path('app_games_create')}}">soyez le premier</a></p>
 	{% endif %}	

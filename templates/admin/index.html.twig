@@ -4,6 +4,10 @@
 
 {% block body %}
 	
-		<h1 class="text-center ">Bienvenue dans le menu Administrator </h1>
+		<h1 class="text-center ">Bienvenue dans le menu Administration </h1>
+
+		<a href="{{ path('app_account_index') }}">Gérer les utilisateurs</a>
+
+		<a href="{{ path('gender.index') }}">Gérer les Genres</a>
 
 {% endblock %}

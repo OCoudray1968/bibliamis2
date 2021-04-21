@@ -51,6 +51,10 @@
 				{% endfor %}
 			</div>
 		{% endfor %}
+	<div class="pagination">
+		{{  knp_pagination_render(discs) }}
+
+	</div>
 	{% else %}
 		<p class="h1 mt-5 text-center">Pas encore de disques <a href="{{path('app_discs_create')}}">soyez le premier</a></p>
 	{% endif %}	

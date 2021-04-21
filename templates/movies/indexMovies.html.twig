@@ -53,6 +53,10 @@
 				{% endfor %}
 			</div>
 		{% endfor %}
+		<div class="pagination">
+			{{  knp_pagination_render(movies) }}
+
+		</div>
 		{% else %}
 		<p class="h1 mt-5 text-center">Pas encore de films <a href="{{path('app_movies_create')}}">soyez le premier</a></p>
 	{% endif %}	

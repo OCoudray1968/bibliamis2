@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Form\UserFormType;
 use App\Form\ChangePasswordFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +16,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AccountController extends AbstractController
 {
+
+    /**
+     * @Route("/account", name="app_account_index",methods="GET")
+     */
+    public function index(UserRepository $userRepository): Response
+    {
+        return $this->render('account/indexAccount.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
+    }
     /**
      * @Route("/account", name="app_account", methods="GET")
      * @IsGranted("ROLE_USER")
