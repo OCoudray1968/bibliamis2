@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Gender;
+use App\Entity\Search\BookSearch;
+use App\Form\BookSearchType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Repository\GenderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -43,15 +47,20 @@ class BooksController extends AbstractController
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
 
+        $search = new BookSearch();
+        $form = $this->createForm(BookSearchType::class, $search);
+        $form->handleRequest($request);
+
         $books = $paginator->paginate(
-            $this->repository->findAllVisibleQuery(),
+            $this->repository->findAllVisibleQuery($search),
             $request->query->getInt('page',1),
             6
         );
 
         return $this->render('books/indexBooks.html.twig', [
             'current_menu' => 'books',
-            'books' =>$books
+            'books' =>$books,
+            'form' => $form->createView()
         ]);
 
     }
@@ -59,17 +68,20 @@ class BooksController extends AbstractController
         
      /**
      * @Route("/books/create", name="app_books_create", methods="GET|POST")
-     * @Security("is_granted('ROLE_USER') and user.isVerified()")
+     * @Security("is_granted('ROLE_USER')")
      */
-    public function create(Request $request, UserRepository $userRepo):Response
+    public function create(Request $request, UserRepository $userRepo, GenderRepository $genderRepo):Response
     {
         $book = new Book;
+
+
+
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            
             $book->setUser($this->getUser());
+
             $this->em->persist($book);
             $this->em->flush();
 
@@ -95,7 +107,6 @@ class BooksController extends AbstractController
 
      /**
      * @Route("/books/{id<[0-9]+>}/edit", name="app_books_edit",methods="GET|PUT")
-     *  @Security("is_granted('BOOK_MANAGE', book)")
      */ 
     public function edit(Request $request,Book $book): Response
 
@@ -125,7 +136,6 @@ class BooksController extends AbstractController
     }    
       /**
      * @Route("/books/{id<[0-9]+>}/delete", name="app_books_delete",methods="DELETE")
-     * @IsGranted("BOOK_MANAGE", subject="book")
      */
     public function delete(Request $request,Book $book): Response
 

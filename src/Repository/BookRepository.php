@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Entity\Search\BookSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,11 +25,23 @@ class BookRepository extends ServiceEntityRepository
      * @return Query Returns an array of Book objects
      *
      */
-    public function findAllVisibleQuery(): Query
+    public function findAllVisibleQuery(BookSearch  $search): Query
 
     {
-        return $this->findVisibleQuery()
-            ->getQuery();
+       $query = $this->findVisibleQuery();
+
+       if ($search->getDepositary()) {
+           $query = $query
+               ->andWhere('b.user = :depositary' )
+               ->setParameter('depositary', $search->getDepositary());
+       }
+
+        if ($search->getAuthor()) {
+            $query = $query
+                ->andWhere('b.author = :author' )
+                ->setParameter('author', $search->getAuthor());
+        }
+            return $query->getQuery();
 
     }
 
@@ -45,7 +58,7 @@ class BookRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    private function findVisibleQuery()
+    private function findVisibleQuery(): \Doctrine\ORM\QueryBuilder
     {
         return $this->createQueryBuilder('b');
     }

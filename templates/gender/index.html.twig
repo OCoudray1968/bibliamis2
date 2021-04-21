@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Gérer les genres' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gérer les Genres</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Genre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gender in genders %}
+                <tr>
+                    <td>{{ gender.genre }}</td>
+                    <td>
+                        <a href="{{ path('gender.edit', {id: gender.id}) }}" class="btn btn-secondary">Editer</a>
+                        <form method="post" action="{{ path('gender.delete', {id: gender.id}) }}"
+                              style="display: inline-block" onsubmit="return confirm('Voulez vous vraiment supprimer cet enregistrement ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete'~ gender.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="{{ path('gender.new') }}" class="btn btn-primary">Créer un nouveau genre</a>
+        </div>
+    </div>
+{% endblock %}

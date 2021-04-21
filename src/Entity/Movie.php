@@ -64,6 +64,12 @@ class Movie
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=GEnder::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_gender;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -145,6 +151,18 @@ class Movie
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdGender(): ?GEnder
+    {
+        return $this->id_gender;
+    }
+
+    public function setIdGender(?GEnder $id_gender): self
+    {
+        $this->id_gender = $id_gender;
 
         return $this;
     }

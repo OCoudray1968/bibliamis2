@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title 'Modifier genre '%}
+
+{% block body %}
+    <div class="container mt-4 flex">
+    <h1>Editer les genres</h1>
+
+    {{ include('gender/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+
+    </div>
+{% endblock %}

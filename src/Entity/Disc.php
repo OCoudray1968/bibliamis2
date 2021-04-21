@@ -68,6 +68,12 @@ class Disc
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Gender::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_gender;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -161,6 +167,18 @@ class Disc
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdGender(): ?Gender
+    {
+        return $this->id_gender;
+    }
+
+    public function setIdGender(?Gender $id_gender): self
+    {
+        $this->id_gender = $id_gender;
 
         return $this;
     }

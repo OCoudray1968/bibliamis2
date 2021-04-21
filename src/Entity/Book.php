@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use Monolog\DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
 use App\Entity\Traits\Timestampable;
@@ -18,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Book
 {
+
     use Timestampable;
 
     /**
@@ -68,7 +70,11 @@ class Book
      */
     private $user;
 
-   
+    /**
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="books")
+     */
+    private $genders;
+
 
     public function getId(): ?int
     {
@@ -157,5 +163,34 @@ class Book
         return $this;
     }
 
-   
+    public function getGenders(): ?Gender
+    {
+        return $this->genders;
+    }
+
+    public function setGenders(?Gender $gender): self
+    {
+        $this->genders = $gender;
+
+        return $this;
+    }
+
+
+    public function addGender(Gender $gender): self
+    {
+        if (!$this->genders->contains($gender)) {
+            $this->genders[] = $gender;
+            $gender->addBook($this);
+        }
+        return $this;
+    }
+
+    public function removeGender(Gender $gender): self
+    {
+        if ($this->genders->removeElement($gender)) {
+            $gender->removeBook($this);
+        }
+
+        return $this;
+    }
 }

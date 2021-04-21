@@ -8,6 +8,26 @@
 		<h3 class="mb-4 text-center">
 		<a href="{{path('app_books_create')}}">Créer un nouveau Livre</a>
 		</h3>
+			<div class="jumbotron">
+				<div class="container">
+					{{ form_start(form) }}
+					<div class="form-row align-items-end">
+						<div class="col">
+							{{ form_row(form.depositary) }}
+						</div>
+						<div class="col">
+							{{ form_row(form.author) }}
+						</div>
+						<div class="col">
+							<div class="form-group">
+								<button class="btn btn-primary">Rechercher</button>
+							</div>
+						</div>
+					</div>
+
+					{{ form_end(form) }}
+				</div>
+			</div>
 		</h1>
 			<div class=" mb-5 row">
 					{%  for book in books %}
@@ -35,7 +55,7 @@
 			</div>
 
 	{% else %}
-		<p class="h1 mt-5 text-center">Pas encore de livres <a href="{{path('app_books_create')}}">soyez le premier</a></p>
+		<p class="h1 mt-5 text-center">Pas de livres correspondants à votre recherche <br><a href="{{path('app_books_create')}}">Revenir à l'accueil</a></p>
 	{% endif %}	
 
 {% endblock %}
