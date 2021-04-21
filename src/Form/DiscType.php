@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Disc;
+use App\Entity\Gender;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,6 +17,11 @@ class DiscType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('genders', EntityType::class, [
+                'class' => Gender::class,
+                'label' => 'Genre',
+                'choice_label' => 'genre',
+            ])
             ->add('artist')
             ->add('support')
              ->add('imageFile', VichImageType::class, [

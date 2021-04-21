@@ -28,10 +28,15 @@ class Gender
      * @ORM\OneToMany (targetEntity=Book::class, mappedBy="gender", orphanRemoval=true)
      */
     private $books;
+    /**
+     * @ORM\OneToMany (targetEntity=Disc::class, mappedBy="gender", orphanRemoval=true)
+     */
+    private $discs;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->discs = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -74,5 +79,27 @@ class Gender
 
         return $this;
     }
+    /**
+     * @return Collection|Disc[]
+     */
+    public function getDiscs(): Collection
+    {
+        return $this->discs;
+    }
 
+    public function addDisc(Disc $disc): self
+    {
+        if (!$this->discs->contains($disc)) {
+            $this->discs[] = $disc;
+        }
+
+        return $this;
+    }
+
+    public function removeDisc(Disc $disc): self
+    {
+        $this->discs->removeElement($disc);
+
+        return $this;
+    }
 }

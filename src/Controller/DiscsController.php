@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Disc;
+use App\Entity\Search\DiscSearch;
+use App\Form\DiscSearchType;
 use App\Form\DiscType;
 use App\Repository\DiscRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,18 +18,48 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class DiscsController extends AbstractController
 {
     /**
+     * @var DiscRepository
+     */
+
+    private $repository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+
+    private $em;
+
+    public function __construct(DiscRepository $repository, EntityManagerInterface $em)
+    {
+        $this->repository = $repository;
+        $this->em = $em;
+    }
+    /**
      * @Route("/discs", name="app_discs_index",methods="GET")
      */
-    public function index(DiscRepository $discRepository): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $discs = $discRepository->findBy([],['createdAt' =>'DESC']);
 
-        return $this->render('discs/indexDiscs.html.twig', compact('discs'));
+        $search = new DiscSearch();
+        $form = $this->createForm(DiscSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $discs = $paginator->paginate(
+            $this->repository->findAllVisibleQuery($search),
+            $request->query->getInt('page',1),
+            6
+        );
+
+        return $this->render('discs/indexDiscs.html.twig', [
+            'current_menu' => 'discs',
+            'discs' =>$discs,
+            'form' => $form->createView()
+        ]);
     }
 
      /**
      * @Route("/discs/create", name="app_discs_create", methods="GET|POST")
-     * @Security("is_granted('ROLE_USER') && user.isVerified()")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function create(Request $request, EntityManagerInterface $em):Response
     {
@@ -60,8 +93,8 @@ class DiscsController extends AbstractController
     }
 
      /**
-     * @Route("/discss/{id<[0-9]+>}/edit", name="app_discs_edit",methods="GET|PUT")
-     * @Security("is_granted('ROLE_USER') && user.isVerified() && disk.getUser() == user")
+     * @Route("/discs/{id<[0-9]+>}/edit", name="app_discs_edit",methods="GET|PUT")
+     * @Security("is_granted('ROLE_USER')  && disc.getUser() == user")
      */
     public function edit(Request $request,Disc $disc, EntityManagerInterface $em): Response
 
@@ -90,7 +123,7 @@ class DiscsController extends AbstractController
     }    
       /**
      * @Route("/discs/{id<[0-9]+>}/delete", name="app_discs_delete",methods="DELETE")
-     * @Security("is_granted('ROLE_USER') && user.isVerified() && disc.getUser() == user")
+     * @Security("is_granted('ROLE_USER')  && disc.getUser() == user")
      */
     public function delete(Request $request,Disc $disc, EntityManagerInterface $em): Response
 

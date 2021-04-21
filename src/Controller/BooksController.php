@@ -81,7 +81,6 @@ class BooksController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $book->setUser($this->getUser());
-
             $this->em->persist($book);
             $this->em->flush();
 
