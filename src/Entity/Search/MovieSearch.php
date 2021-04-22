@@ -2,6 +2,8 @@
 
 namespace App\Entity\Search;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class MovieSearch
 {
     /**
@@ -13,6 +15,16 @@ class MovieSearch
      * @var string|null
      */
     private $director;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $genders;
+
+    public function __construct()
+    {
+        $this->genders = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -48,6 +60,22 @@ class MovieSearch
     {
         $this->director = $director;
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGenders(): ArrayCollection
+    {
+        return $this->genders;
+    }
+
+    /**
+     * @param ArrayCollection $genders
+     */
+    public function setGenders(ArrayCollection $genders): void
+    {
+        $this->genders = $genders;
     }
 
 

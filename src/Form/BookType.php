@@ -18,12 +18,16 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options )
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('author')
+            ->add('title', TextType::class,[
+                'label'=>'Titre'
+            ])
+            ->add('author', TextType::class,[
+                'label' => 'Auteur'
+            ])
             ->add('genders', EntityType::class, [
                 'class' => Gender::class,
                 'label' => 'Genre',
-                'choice_label' => 'genre',
+                'choice_label' => 'genre'
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image (Fichier JPG ou PNG)',
@@ -34,7 +38,9 @@ class BookType extends AbstractType
                 'imagine_pattern' => 'squared_thumbnail_small'
             ])
             
-            ->add('comments', TextareaType::class)
+            ->add('comments', TextareaType::class, [
+                'label' => 'Commentaires'
+            ])
            ;
     }
 

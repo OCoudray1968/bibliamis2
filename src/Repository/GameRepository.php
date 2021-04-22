@@ -41,6 +41,13 @@ class GameRepository extends ServiceEntityRepository
                 ->andWhere('g.title= :title' )
                 ->setParameter('artist', $search->getTitle());
         }
+
+        if ($search->getGenders()->count()>0)
+        {
+            $query = $query
+                ->andWhere('g.genders = :genders')
+                ->setParameter('genders', $search->getGenders());
+        }
         return $query->getQuery();
 
     }

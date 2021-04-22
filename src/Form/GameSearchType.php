@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Gender;
 use App\Entity\Search\BookSearch;
 use App\Entity\Search\DiscSearch;
 use App\Entity\Search\GameSearch;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,6 +31,13 @@ class GameSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Titre'
                 ]
+            ])
+            ->add('genders', EntityType::class, [
+                'required' => false,
+                'label' => false,
+                'class' => Gender::class,
+                'choice_label' => 'genre',
+                'multiple' => true,
             ])
         ;
     }

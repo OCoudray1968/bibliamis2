@@ -44,7 +44,6 @@ class BooksController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
-
         $search = new BookSearch();
         $form = $this->createForm(BookSearchType::class, $search);
         $form->handleRequest($request);

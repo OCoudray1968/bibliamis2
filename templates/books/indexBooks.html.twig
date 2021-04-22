@@ -19,6 +19,9 @@
 							{{ form_row(form.author) }}
 						</div>
 						<div class="col">
+							{{ form_row(form.genders) }}
+						</div>
+						<div class="col">
 							<div class="form-group">
 								<button class="btn btn-primary">Rechercher</button>
 							</div>
@@ -55,7 +58,7 @@
 			</div>
 
 	{% else %}
-		<p class="h1 mt-5 text-center">Pas de livres correspondants à votre recherche <br><a href="{{path('app_books_create')}}">Revenir à l'accueil</a></p>
+		<p class="h1 mt-5 text-center">Pas de livres correspondants à votre recherche <br><a href="{{path('app_books_index')}}">Revenir à l'accueil</a></p>
 	{% endif %}	
 
 {% endblock %}

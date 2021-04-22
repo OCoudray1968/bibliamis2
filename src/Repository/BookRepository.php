@@ -41,6 +41,13 @@ class BookRepository extends ServiceEntityRepository
                 ->andWhere('b.author = :author' )
                 ->setParameter('author', $search->getAuthor());
         }
+
+        if ($search->getGenders()->count()>0)
+        {
+                $query = $query
+                    ->andWhere('b.genders = :genders')
+                    ->setParameter('genders', $search->getGenders());
+        }
             return $query->getQuery();
 
     }

@@ -2,6 +2,8 @@
 
 namespace App\Entity\Search;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class DiscSearch
 {
     /**
@@ -41,6 +43,16 @@ class DiscSearch
     }
 
     /**
+     * @var ArrayCollection
+     */
+    private $genders;
+
+    public function __construct()
+    {
+        $this->genders = new ArrayCollection();
+    }
+
+    /**
      * @param string|null $artist
      * @return DiscSearch
      */
@@ -50,5 +62,20 @@ class DiscSearch
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getGenders(): ArrayCollection
+    {
+        return $this->genders;
+    }
+
+    /**
+     * @param ArrayCollection $genders
+     */
+    public function setGenders(ArrayCollection $genders): void
+    {
+        $this->genders = $genders;
+    }
 
 }

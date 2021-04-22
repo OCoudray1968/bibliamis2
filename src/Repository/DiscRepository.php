@@ -41,6 +41,13 @@ class DiscRepository extends ServiceEntityRepository
                 ->andWhere('d.artist= :artist' )
                 ->setParameter('artist', $search->getArtist());
         }
+
+        if ($search->getGenders()->count()>0)
+        {
+            $query = $query
+                ->andWhere('d.genders = :genders')
+                ->setParameter('genders', $search->getGenders());
+        }
         return $query->getQuery();
 
     }

@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Gender;
 use App\Entity\Search\BookSearch;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,6 +29,13 @@ class BookSearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Auteur'
                 ]
+            ])
+            ->add('genders', EntityType::class, [
+                'required' => false,
+                'label' => false,
+                'class' => Gender::class,
+                'choice_label' => 'genre',
+                'multiple' => true,
             ])
         ;
     }

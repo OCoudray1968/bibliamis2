@@ -41,6 +41,13 @@ class MovieRepository extends ServiceEntityRepository
                 ->andWhere('m.director= :director' )
                 ->setParameter('director', $search->getDirector());
         }
+
+        if ($search->getGenders()->count()>0)
+        {
+            $query = $query
+                ->andWhere('m.genders = :genders')
+                ->setParameter('genders', $search->getGenders());
+        }
         return $query->getQuery();
 
     }

@@ -2,6 +2,12 @@
 
 namespace App\Entity\Search;
 
+
+
+
+
+use Doctrine\Common\Collections\ArrayCollection;
+
 class BookSearch
 {
     /**
@@ -13,6 +19,16 @@ class BookSearch
      * @var string|null
      */
     private $author;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $genders;
+
+    public function __construct()
+    {
+        $this->genders = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -49,6 +65,23 @@ class BookSearch
         $this->author = $author;
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGenders(): ArrayCollection
+    {
+        return $this->genders;
+    }
+
+    /**
+     * @param ArrayCollection $genders
+     */
+    public function setGenders(ArrayCollection $genders): void
+    {
+        $this->genders = $genders;
+    }
+
 
 
 
