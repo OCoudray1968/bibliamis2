@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GameRepository;
@@ -67,6 +69,16 @@ class Game
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="games")
      */
     private $genders;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="game")
+     */
+    private $loannings;
+
+    public function __construct()
+    {
+        $this->loannings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,6 +191,33 @@ class Game
     {
         if ($this->genders->removeElement($gender)) {
             $gender->removeGame($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getLoannings(): Collection
+    {
+        return $this->loannings;
+    }
+
+    public function addLoanning(Loanning $loanning): self
+    {
+        if (!$this->loannings->contains($loanning)) {
+            $this->loannings[] = $loanning;
+            $loanning->addGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoanning(Loanning $loanning): self
+    {
+        if ($this->loannings->removeElement($loanning)) {
+            $loanning->removeGame($this);
         }
 
         return $this;

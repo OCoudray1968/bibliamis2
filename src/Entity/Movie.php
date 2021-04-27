@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MovieRepository;
@@ -68,6 +70,16 @@ class Movie
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="movies")
      */
     private $genders;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="movie")
+     */
+    private $loannings;
+
+    public function __construct()
+    {
+        $this->loannings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +192,33 @@ class Movie
     {
         if ($this->genders->removeElement($gender)) {
             $gender->removeMovie($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getLoannings(): Collection
+    {
+        return $this->loannings;
+    }
+
+    public function addLoanning(Loanning $loanning): self
+    {
+        if (!$this->loannings->contains($loanning)) {
+            $this->loannings[] = $loanning;
+            $loanning->addMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoanning(Loanning $loanning): self
+    {
+        if ($this->loannings->removeElement($loanning)) {
+            $loanning->removeMovie($this);
         }
 
         return $this;

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Loanning;
 use App\Entity\Search\BookSearch;
+use App\Entity\User;
 use App\Form\BookSearchType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
@@ -18,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\isCsrfTokenValid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\denyAccessUnlessGranted;
+
 
 class BooksController extends AbstractController
 {
@@ -70,7 +73,7 @@ class BooksController extends AbstractController
     public function create(Request $request, UserRepository $userRepo):Response
     {
         $book = new Book;
-    $form = $this->createForm(BookType::class, $book);
+        $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -147,5 +150,30 @@ class BooksController extends AbstractController
             return $this->redirectToRoute('app_books_index');
 
              }
-        
-   }
+    /**
+     * @Route("/books/{id<[0-9]+>}/loan", name="app_books_loan",methods="GET")
+     */
+    public function loan(Request $request, Book $book):Response
+
+    {
+        $user = $this->getUser();
+        $loan = new Loanning();
+        $loan->setBorrower($this->getUser());
+        $loan->setLender($book->getUser());
+        $loan->setOngoing(true);
+        $loan->addBook($book);
+        $loan->updateLoanDate();
+
+        $this->em->persist($loan);
+
+        $this->em->flush();
+
+        $this->addFlash('success', 'La demande de prêt a été envoyé avec succès');
+
+        return $this->redirectToRoute('app_books_index');
+
+
+
+
+    }
+}

@@ -25,6 +25,7 @@
 						Créer le {{ book.createdAt|date('d/m/Y') }} par {{book.user.fullName}}
 						</small>
 					</p>
+
 					{% if app.user == book.user %}
 						<div class=" mx-auto">
 							<a href="{{path('app_books_edit', {id: book.id})}}" class="btn btn-light">Modifier</a> 
@@ -38,6 +39,10 @@
 								<input type="hidden" name="_method" value="DELETE">
 							</form>
 						</div>
+						{% else %}
+							<div class="mx-auto">
+								<a href="{{ path('app_books_loan',{id: book.id}) }}">Demande d'emprunt</a>
+							</div>
 					{%  endif %}
 				</div>
 			</article>

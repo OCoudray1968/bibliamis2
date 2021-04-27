@@ -75,6 +75,16 @@ class Book
      */
     private $genders;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="book")
+     */
+    private $loannings;
+
+    public function __construct()
+    {
+        $this->loannings = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -189,6 +199,33 @@ class Book
     {
         if ($this->genders->removeElement($gender)) {
             $gender->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getLoannings(): Collection
+    {
+        return $this->loannings;
+    }
+
+    public function addLoanning(Loanning $loanning): self
+    {
+        if (!$this->loannings->contains($loanning)) {
+            $this->loannings[] = $loanning;
+            $loanning->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoanning(Loanning $loanning): self
+    {
+        if ($this->loannings->removeElement($loanning)) {
+            $loanning->removeBook($this);
         }
 
         return $this;

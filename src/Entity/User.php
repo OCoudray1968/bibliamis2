@@ -85,12 +85,24 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Loanning::class, mappedBy="lender")
+     */
+    private $loannings;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Loanning::class, mappedBy="borrower", orphanRemoval=true)
+     */
+    private $borrower;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
         $this->discs = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->movies = new ArrayCollection();
+        $this->loannings = new ArrayCollection();
+        $this->borrower = new ArrayCollection();
     }
 
     
@@ -344,6 +356,66 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getLoannings(): Collection
+    {
+        return $this->loannings;
+    }
+
+    public function addLoanning(Loanning $loanning): self
+    {
+        if (!$this->loannings->contains($loanning)) {
+            $this->loannings[] = $loanning;
+            $loanning->setLender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoanning(Loanning $loanning): self
+    {
+        if ($this->loannings->removeElement($loanning)) {
+            // set the owning side to null (unless already changed)
+            if ($loanning->getLender() === $this) {
+                $loanning->setLender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getBorrower(): Collection
+    {
+        return $this->borrower;
+    }
+
+    public function addBorrower(Loanning $borrower): self
+    {
+        if (!$this->borrower->contains($borrower)) {
+            $this->borrower[] = $borrower;
+            $borrower->setBorrower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrower(Loanning $borrower): self
+    {
+        if ($this->borrower->removeElement($borrower)) {
+            // set the owning side to null (unless already changed)
+            if ($borrower->getBorrower() === $this) {
+                $borrower->setBorrower(null);
+            }
+        }
 
         return $this;
     }

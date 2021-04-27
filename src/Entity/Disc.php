@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DiscRepository;
@@ -72,6 +74,16 @@ class Disc
      * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="discs")
      */
     private $genders;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="Disc")
+     */
+    private $loannings;
+
+    public function __construct()
+    {
+        $this->loannings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -197,6 +209,33 @@ class Disc
     {
         if ($this->genders->removeElement($gender)) {
             $gender->removeDisc($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loanning[]
+     */
+    public function getLoannings(): Collection
+    {
+        return $this->loannings;
+    }
+
+    public function addLoanning(Loanning $loanning): self
+    {
+        if (!$this->loannings->contains($loanning)) {
+            $this->loannings[] = $loanning;
+            $loanning->addDisc($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoanning(Loanning $loanning): self
+    {
+        if ($this->loannings->removeElement($loanning)) {
+            $loanning->removeDisc($this);
         }
 
         return $this;
