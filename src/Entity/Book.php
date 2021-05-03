@@ -76,15 +76,9 @@ class Book
     private $genders;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="book")
+     * @ORM\OneToMany(targetEntity=Loanning::class, mappedBy="book")
      */
     private $loannings;
-
-    public function __construct()
-    {
-        $this->loannings = new ArrayCollection();
-    }
-
 
     public function getId(): ?int
     {
@@ -205,29 +199,23 @@ class Book
     }
 
     /**
-     * @return Collection|Loanning[]
+     * @return mixed
      */
-    public function getLoannings(): Collection
+    public function getLoannings()
     {
         return $this->loannings;
     }
 
-    public function addLoanning(Loanning $loanning): self
+    /**
+     * @param mixed $loannings
+     * @return Book
+     */
+    public function setLoannings($loannings)
     {
-        if (!$this->loannings->contains($loanning)) {
-            $this->loannings[] = $loanning;
-            $loanning->addBook($this);
-        }
-
+        $this->loannings = $loannings;
         return $this;
     }
 
-    public function removeLoanning(Loanning $loanning): self
-    {
-        if ($this->loannings->removeElement($loanning)) {
-            $loanning->removeBook($this);
-        }
 
-        return $this;
-    }
+
 }

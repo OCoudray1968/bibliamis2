@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Disc;
+use App\Entity\Loanning;
 use App\Entity\Search\DiscSearch;
 use App\Form\DiscSearchType;
 use App\Form\DiscType;
@@ -143,4 +144,30 @@ class DiscsController extends AbstractController
             return $this->redirectToRoute('app_discs_index');
 
         }
+    /**
+     * @Route("/discs/{id<[0-9]+>}/loan", name="app_discs_loan",methods="GET")
+     */
+    public function loan(Request $request, Disc $disc):Response
+
+    {
+        $user = $this->getUser();
+        $loan = new Loanning();
+        $loan->setBorrower($user);
+        $loan->setLender($disc->getUser());
+        $loan->setOngoing(true);
+        $loan->setDisc($disc);
+        $loan->updateLoanDate();
+
+        $this->em->persist($loan);
+
+        $this->em->flush();
+
+        $this->addFlash('success', 'La demande de prêt a été envoyé avec succès');
+
+        return $this->redirectToRoute('app_discs_index');
+
+
+
+
+    }
 }

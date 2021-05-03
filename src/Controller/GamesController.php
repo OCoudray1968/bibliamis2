@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\Loanning;
 use App\Entity\Search\GameSearch;
 use App\Form\GameSearchType;
 use App\Form\GameType;
@@ -145,5 +146,30 @@ class GamesController extends AbstractController
             return $this->redirectToRoute('app_games_index');
 
         }
-        
+    /**
+     * @Route("/games/{id<[0-9]+>}/loan", name="app_games_loan",methods="GET")
+     */
+    public function loan(Request $request, Game $game):Response
+
+    {
+        $user = $this->getUser();
+        $loan = new Loanning();
+        $loan->setBorrower($user);
+        $loan->setLender($game->getUser());
+        $loan->setOngoing(true);
+        $loan->setGame($game);
+        $loan->updateLoanDate();
+
+        $this->em->persist($loan);
+
+        $this->em->flush();
+
+        $this->addFlash('success', 'La demande de prêt a été envoyé avec succès');
+
+        return $this->redirectToRoute('app_games_index');
+
+
+
+
+    }
    }

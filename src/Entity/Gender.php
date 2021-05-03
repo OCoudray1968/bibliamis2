@@ -154,7 +154,7 @@ class Gender
         return $this;
     }
 
-    public function removeMovie(Disc $movie): self
+    public function removeMovie(Movie $movie): self
     {
         $this->movies->removeElement($movie);
 

@@ -26,28 +26,28 @@ class Loanning
     private $lender;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="borrower")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="loannings")
      * @ORM\JoinColumn(nullable=false)
      */
     private $borrower;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Book::class, inversedBy="loannings")
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="loannings")
      */
     private $book;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Disc::class, inversedBy="loannings")
+     * @ORM\ManyToOne(targetEntity=Disc::class, inversedBy="loannings")
      */
     private $Disc;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Movie::class, inversedBy="loannings")
+     * @ORM\ManyToOne(targetEntity=Movie::class, inversedBy="loannings")
      */
     private $movie;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Game::class, inversedBy="loannings")
+     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="loannings")
      */
     private $game;
 
@@ -66,13 +66,6 @@ class Loanning
      */
     private $ongoing;
 
-    public function __construct()
-    {
-        $this->book = new ArrayCollection();
-        $this->Disc = new ArrayCollection();
-        $this->movie = new ArrayCollection();
-        $this->game = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -103,101 +96,51 @@ class Loanning
         return $this;
     }
 
-    /**
-     * @return Collection|Book[]
-     */
-    public function getBook(): Collection
+
+    public function getBook(): ?Book
     {
         return $this->book;
     }
 
-    public function addBook(Book $book): self
+    public function setBook(?Book $book): self
     {
-        if (!$this->book->contains($book)) {
-            $this->book[] = $book;
-        }
-
+        $this->book = $book;
         return $this;
     }
 
-    public function removeBook(Book $book): self
-    {
-        $this->book->removeElement($book);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Disc[]
-     */
-    public function getDisc(): Collection
+    public function getDisc(): ?Disc
     {
         return $this->Disc;
     }
 
-    public function addDisc(Disc $disc): self
+    public function setDisc(?Disc $Disc): self
     {
-        if (!$this->Disc->contains($disc)) {
-            $this->Disc[] = $disc;
-        }
-
+        $this->Disc = $Disc;
         return $this;
     }
 
-    public function removeDisc(Disc $disc): self
-    {
-        $this->Disc->removeElement($disc);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Movie[]
-     */
-    public function getMovie(): Collection
+    public function getMovie(): ?Movie
     {
         return $this->movie;
     }
 
-    public function addMovie(Movie $movie): self
+    public function setMovie(?Movie $movie): self
     {
-        if (!$this->movie->contains($movie)) {
-            $this->movie[] = $movie;
-        }
-
+        $this->movie = $movie;
         return $this;
     }
 
-    public function removeMovie(Movie $movie): self
-    {
-        $this->movie->removeElement($movie);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Game[]
-     */
-    public function getGame(): Collection
+    public function getGame(): ?Game
     {
         return $this->game;
     }
 
-    public function addGame(Game $game): self
+    public function setGame(?Game $game): self
     {
-        if (!$this->game->contains($game)) {
-            $this->game[] = $game;
-        }
-
+        $this->game = $game;
         return $this;
     }
 
-    public function removeGame(Game $game): self
-    {
-        $this->game->removeElement($game);
-
-        return $this;
-    }
 
     public function getLoanDate(): ?\DateTimeInterface
     {

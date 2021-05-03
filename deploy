@@ -1,0 +1,2 @@
+#!/bin/sh
+rsync -av ./ mg82v_bibliamis@bibliamis.fr:~/bibliamis --include=public/build --include=public/.htaccess --include=vendor --exclude-from=.gitignore --exclude=".*"

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Loanning;
 use App\Entity\Movie;
 use App\Entity\Search\MovieSearch;
 use App\Form\MovieSearchType;
@@ -144,4 +145,31 @@ class MoviesController extends AbstractController
             return $this->redirectToRoute('app_movies_index');
 
         }
+
+    /**
+     * @Route("/movies/{id<[0-9]+>}/loan", name="app_movies_loan",methods="GET")
+     */
+    public function loan(Request $request, Movie $movie):Response
+
+    {
+        $user = $this->getUser();
+        $loan = new Loanning();
+        $loan->setBorrower($user);
+        $loan->setLender($movie->getUser());
+        $loan->setOngoing(true);
+        $loan->setMovie($movie);
+        $loan->updateLoanDate();
+
+        $this->em->persist($loan);
+
+        $this->em->flush();
+
+        $this->addFlash('success', 'La demande de prêt a été envoyé avec succès');
+
+        return $this->redirectToRoute('app_movies_index');
+
+
+
+
+    }
 }

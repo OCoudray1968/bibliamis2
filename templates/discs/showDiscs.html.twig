@@ -36,6 +36,11 @@
 								<input type="hidden" name="_method" value="DELETE">
 							</form>
 						</div>
+					{% else %}
+						<div class="mx-auto">
+							<a href="{{ path('app_discs_loan',{id: disc.id}) }}">Demande d'emprunt</a>
+						</div>
+
 					{% endif %}
 				</div>
 			</article>

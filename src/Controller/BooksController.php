@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Entity\Loanning;
 use App\Entity\Search\BookSearch;
-use App\Entity\User;
 use App\Form\BookSearchType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
@@ -158,10 +157,10 @@ class BooksController extends AbstractController
     {
         $user = $this->getUser();
         $loan = new Loanning();
-        $loan->setBorrower($this->getUser());
+        $loan->setBorrower($user);
         $loan->setLender($book->getUser());
         $loan->setOngoing(true);
-        $loan->addBook($book);
+        $loan->setBook($book);
         $loan->updateLoanDate();
 
         $this->em->persist($loan);

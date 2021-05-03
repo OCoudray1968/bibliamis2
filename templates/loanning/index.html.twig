@@ -5,10 +5,37 @@
 {% block body %}
     <div class="jumbotron">
         <div class="container">
-            {{ form_start(form) }}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Préteur</th>
+                    <th>Emprunteur</th>
+                    <th>Titre</th>
+                    <th>Date d'emprunt</th>
+
+                </tr>
+                </thead>
+                <tbody>
+            {% for loan in loans %}
+            <tr>
+                <td>{{ loan.lender.fullname}}</td>
+                <td>{{ loan.borrower.fullname}}</td>
+                {% if (loan.book != null) %}
+                    <td>{{ loan.book.title  }}</td>
+                {% elseif (loan.disc != null) %}
+                    <td>{{ loan.disc.title}}</td>
+                {% elseif (loan.game != null) %}
+                    <td>{{ loan.game.title}}</td>
+                {% elseif (loan.movie != null) %}
+                    <td>{{ loan.movie.title}}</td>
+                 {% endif%}
+                <td>{{ loan.loanDate | date('d/m/Y') }}</td>
+            </tr>
 
 
-            {{ form_end(form) }}
+            {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

@@ -1,10 +1,6 @@
 <?php
 
 namespace App\Entity;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Monolog\DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MovieRepository;
 use App\Entity\Traits\Timestampable;
@@ -72,14 +68,10 @@ class Movie
     private $genders;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Loanning::class, mappedBy="movie")
+     * @ORM\OneToMany(targetEntity=Loanning::class, mappedBy="movie")
      */
     private $loannings;
 
-    public function __construct()
-    {
-        $this->loannings = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -191,36 +183,28 @@ class Movie
     public function removeGender(Gender $gender): self
     {
         if ($this->genders->removeElement($gender)) {
-            $gender->removeMovie($this);
+            $gender->RemoveMovie($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Loanning[]
+     * @return mixed
      */
-    public function getLoannings(): Collection
+    public function getLoannings()
     {
         return $this->loannings;
     }
 
-    public function addLoanning(Loanning $loanning): self
+    /**
+     * @param mixed $loannings
+     * @return Movie
+     */
+    public function setLoannings($loannings)
     {
-        if (!$this->loannings->contains($loanning)) {
-            $this->loannings[] = $loanning;
-            $loanning->addMovie($this);
-        }
-
+        $this->loannings = $loannings;
         return $this;
     }
 
-    public function removeLoanning(Loanning $loanning): self
-    {
-        if ($this->loannings->removeElement($loanning)) {
-            $loanning->removeMovie($this);
-        }
-
-        return $this;
-    }
 }

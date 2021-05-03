@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Loanning;
+use App\Form\BookSearchType;
 use App\Form\LoanningType;
+use App\Repository\BookRepository;
 use App\Repository\LoanningRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,41 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoanningController extends AbstractController
 {
-    /**
-     * @var LoanningRepository
-     */
 
-    private $repository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-
-    private $em;
-
-    public function __construct(LoanningRepository $repository, EntityManagerInterface $em)
-    {
-        $this->repository = $repository;
-        $this->em = $em;
-    }
     /**
      * @Route("/loanning", name="app_loanning_index")
      */
-    public function index(Request $request, UserRepository $user):Response
+    public function index(LoanningRepository $repository, BookRepository $book,  Request $request):Response
     {
+        $loan = new Loanning();
 
-        $loan = new Loanning;
-
-        $loan->setLender()->getLender($user);
-        $loan->setOngoing(true);
-        dd($loan);
-        $this->em->persist($loan);
-        // $this->em->flush();
-
-            $this->addFlash('success', "La demande d'emprunt a été envoyé avec succès");
-
-            return $this->redirectToRoute('app_loanning_index');
+                  return $this->render('loanning/index.html.twig', [
+                     'loans' => $repository->findAll(),
+                      'book' => $book->findOneBy((array)$loan->getId()),
 
 
+        ]);
     }
 }
